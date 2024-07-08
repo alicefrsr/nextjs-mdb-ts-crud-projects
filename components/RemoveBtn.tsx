@@ -22,9 +22,9 @@ export default function RemoveBtn({ id }: { id: string }) {
   return (
     <button
       onClick={handleRemoveProject}
-      className='text-red-800 bg-red-200 hover:bg-red-300 p-2 rounded-md'
+      className=' text-red-700 bg-red-100 hover:bg-red-200 border border-red-300 px-2  rounded-md'
     >
-      <Trash2 size={22} />
+      <Trash2 size={19} />
     </button>
   );
 }

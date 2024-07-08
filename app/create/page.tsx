@@ -36,7 +36,7 @@ export default function CreateFormPage() {
         ></textarea>
         <button
           type='submit'
-          className='ml-auto rounded-md text-green-900 bg-green-200 hover:bg-green-300 px-3 py-2  w-fit '
+          className='ml-auto rounded-md text-green-700 bg-green-100 hover:bg-green-200 border border-green-300 px-3 py-2  w-fit '
         >
           Add project
         </button>

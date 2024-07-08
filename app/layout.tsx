@@ -25,7 +25,7 @@ export default function RootLayout({
             </Link>
             <Link
               href={'/create'}
-              className='rounded-md text-blue-900 bg-blue-200 hover:bg-blue-300 px-3 py-2'
+              className='rounded-md text-sky-700 bg-sky-100 hover:bg-sky-200 border border-sky-300 px-3 py-2'
             >
               Create new project
             </Link>

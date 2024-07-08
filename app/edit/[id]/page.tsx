@@ -36,7 +36,7 @@ export default function EditFormPage() {
         ></textarea>
         <button
           type='submit'
-          className='ml-auto rounded-md text-orange-900 bg-orange-200 hover:bg-orange-300 px-3 py-2 w-fit '
+          className='ml-auto rounded-md text-orange-700 bg-orange-100 hover:bg-orange-200 border border-orange-300 px-3 py-2 w-fit '
         >
           Update project
         </button>

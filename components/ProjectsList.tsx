@@ -85,7 +85,7 @@ function ProjectItem({ project }: { project: IProjects }) {
           <Link href={`/edit/${_id}`}>
             <Pencil
               size={38}
-              className='text-slate-800 bg-slate-200 hover:bg-slate-300 p-2 rounded-md'
+              className=' text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 p-2 rounded-md'
             />
           </Link>
           <RemoveBtn id={_id} />
