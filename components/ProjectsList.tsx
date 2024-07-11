@@ -1,91 +1,74 @@
-'use client';
-
-import { ExternalLink, Pencil } from 'lucide-react';
 import Link from 'next/link';
 import RemoveBtn from './RemoveBtn';
-import { useEffect, useState } from 'react';
+import { Pencil } from 'lucide-react';
+// import data from '@/data/data.json';
+import Image from 'next/image';
 
-interface IProjects {
-  _id: string;
-  title: string;
-  summary: string;
-  description: string;
-}
+//////////////////
+// READ - fetch (ALL) data from DB, from SERVER component
+const getProjects = async () => {
+  try {
+    const res = await fetch('http://localhost:3000/api/projects', {
+      cache: 'no-store',
+    });
+    if (!res.ok) {
+      throw new Error('Failed to fetch projects');
+    }
+    return res.json();
+  } catch (error) {
+    console.log('Error fetching projects: ', error);
+  }
+};
+//////////////////
 
-function ProjectsList() {
-  //new
-  const [projects, setProjects] = useState<IProjects[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch('/api/projects');
-        if (!response.ok) {
-          throw new Error('Failed to fetch projects');
-        }
-        const data = await response.json();
-        console.log(data.projects); // data returns an object not an array (so projects.map not a function)
-        setProjects(data.projects);
-      } catch (error) {
-        console.log(error);
-        setError('Failed to load projects. Please try reloading the page');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchProjects();
-  }, []);
-
+export default async function ProjectsList() {
+  // deconstruct (promised) data returned from MongoDB
+  const { projects } = await getProjects();
   return (
     <>
-      {error && <p className='py-4 text-red-500-'>{error}</p>}
-
-      {isLoading ? (
-        <p>Loading projects...</p>
-      ) : (
-        <ul className='flex flex-col gap-4 mt-4'>
-          {projects?.map((project, i) => (
-            <ProjectItem key={i} project={project} />
-          ))}
-        </ul>
-      )}
+      <ul className='flex flex-col gap-4 mt-4'>
+        {/* {data.map((project, i) => (
+          <ProjectItem key={i} project={project} />
+          // <ProjectItem key={i} {...project} />
+        ))} */}
+        {projects.map((project: any, i: any) => (
+          <ProjectItem key={i} project={project} />
+        ))}
+      </ul>
     </>
   );
 }
 
-function ProjectItem({ project }: { project: IProjects }) {
-  const { _id, title, summary, description } = project;
+function ProjectItem({ project }: any) {
+  // function projectItem(project) {
+  const { _id, title, image, summary, description } = project;
+
   return (
-    <li className='flex justify-between px-6 py-4 border border-slate-200 rounded-md'>
-      {/* column on the left: image */}
-      {/* <Image src={image} width={24} height={24} alt={title} /> */}
-      {/* column in the center: info */}
-      <div>
-        <h2 className='font-bold text-2xl'>{title}</h2>
+    <li className='flex justify-between p-4 border border-slate-200 rounded-md'>
+      <div className='flex gap-5'>
+        {/* column on the left: image */}
+        {/* <Image src={image} width={24} height={24} alt={title} /> */}
+        {/* column in the center: info */}
         <div>
-          <span className='font-semibold'>Summary:</span> {summary}
-        </div>
-        {/* <div>
+          <h2 className='font-bold text-2xl'>{title}</h2>
+          <div>Summary: {summary}</div>
+          {/* <div>
             Status:{' '}
             <span className='bg-green-500 text-white px-5 py-1 rounded-full'>
               {status || 'unknown'}
             </span>
           </div> */}
-        <div>
-          <span className='font-semibold'>Description:</span> {description}
+          <div>Description: {description}</div>
         </div>
       </div>
 
-      {/* column on the right/top: buttons */}
+      {/* column on the right: buttons */}
       <div className=''>
         <div className='flex gap-2 justify-start'>
           <Link href={`/edit/${_id}`}>
             <Pencil
               size={38}
-              className=' text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 p-2 rounded-md'
+              className='text-slate-800 bg-slate-200 hover:bg-slate-300 p-2 rounded-md'
             />
           </Link>
           <RemoveBtn id={_id} />
@@ -94,5 +77,3 @@ function ProjectItem({ project }: { project: IProjects }) {
     </li>
   );
 }
-
-export default ProjectsList;

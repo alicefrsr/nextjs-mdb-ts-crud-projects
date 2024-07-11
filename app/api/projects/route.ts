@@ -2,7 +2,6 @@
 
 import connectMongoDB from '@/libs/mongodb';
 import Project from '@/models/project'; // type declarations?
-
 import { NextResponse } from 'next/server';
 
 // tested in Postman: works - not from UI
@@ -19,3 +18,11 @@ export async function GET() {
   const projects = await Project.find();
   return NextResponse.json({ projects });
 }
+
+// // Delete projects
+// export async function DELETE(req: Request) {
+//   const id = req.nextUrl.searchParams.get('id');
+//   await connectMongoDB();
+//   await Project.findByIdAndDelete(id);
+//   return NextResponse.json({ message: 'Project deleted' }, { status: 200 });
+// }

@@ -21,7 +21,7 @@ export default function RemoveBtn({ id }: { id: string }) {
   };
   return (
     <button
-      onClick={handleRemoveProject}
+      onClick={() => handleRemoveProject(id)}
       className=' text-red-700 bg-red-100 hover:bg-red-200 border border-red-300 px-2  rounded-md'
     >
       <Trash2 size={19} />

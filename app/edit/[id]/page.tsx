@@ -1,46 +1,59 @@
-'use client';
-import { useState } from 'react';
+import EditProjectForm from '@/components/EditProjectForm';
 
-export default function EditFormPage() {
-  const [title, setTitle] = useState('');
-  const [summary, setSummary] = useState('');
-  const [description, setDescription] = useState('');
+//////////////////
+// READ - fetch data (PROJECT) from DB, from server component
+const getProjectById = async (projectId: string) => {
+  //? const getProjectById = async (_id : string) => {
+  try {
+    // CANNOT call you API locally from server side, need the full path
+    const res = await fetch(`http://localhost:3000/api/projects/${projectId}`, {
+      method: 'GET',
+    });
+    if (!res.ok) {
+      throw new Error('Failed to fetch project');
+    }
+
+    return res.json();
+  } catch (error) {
+    console.log(`Error fetching project with id ${projectId} : `, error);
+  }
+};
+//////////////////
+
+export default async function EditProjectPage({ params }: any) {
+  const { id } = params;
+  const { project } = await getProjectById(id);
+  console.log(project);
+  const { _id, title, summary, description } = project;
   return (
-    <>
-      <h2 className='text-2xl font-bold my-8'>Edit project</h2>
-      <form className='flex flex-col gap-4 '>
-        <input
-          className='border border-slate-200 rounded-md px-4 py-1'
-          type='text'
-          name='title'
-          placeholder='Project title'
-          onChange={(e) => setTitle(e.target.value)}
-          value={title}
-        />
-        <input
-          className='border border-slate-200 rounded-md px-4 py-1'
-          type='text'
-          name='summary'
-          placeholder='Project summary'
-          onChange={(e) => setSummary(e.target.value)}
-          value={summary}
-        />
-        <textarea
-          className='border border-slate-200 rounded-md px-4 py-1'
-          // type='text'
-          rows={4}
-          name='description'
-          placeholder='Project description'
-          onChange={(e) => setDescription(e.target.value)}
-          value={description}
-        ></textarea>
-        <button
-          type='submit'
-          className='ml-auto rounded-md text-orange-700 bg-orange-100 hover:bg-orange-200 border border-orange-300 px-3 py-2 w-fit '
-        >
-          Update project
-        </button>
-      </form>
-    </>
+    <EditProjectForm
+      id={id}
+      title={title}
+      summary={summary}
+      description={description}
+    />
   );
 }
+
+/////////////////////
+// // example of dynamic SEO : metadata on dynamic pages
+// For example if we had a specific post on this page, dynamically served with params id:
+
+// const fetchPost = async (postId) => {
+//   const post = await fetch(`/api/posts/${postId}`, { method: 'GET' });
+//   return post.json();
+// };
+// // we'd use this Next function:
+// export async function geenrateMetadata({ params }) {
+//   const { post } = await fetchPost(params.id);
+
+//   return {
+//     title: post[0].title,
+//     description: post[0].description,
+//     // etc
+//   };
+// }
+
+// export default function PostIDPage({ params }) {
+//   return <main>Post {params.id}</main>;
+// }

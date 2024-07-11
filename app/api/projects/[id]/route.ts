@@ -1,5 +1,3 @@
-// convert to typscript
-
 import connectMongoDB from '@/libs/mongodb';
 import Project from '@/models/project'; // type declarations?
 import { NextResponse } from 'next/server';
@@ -31,13 +29,13 @@ export async function GET(
   return NextResponse.json({ project }, { status: 200 });
 }
 
-// Delete projects
-export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
-  await connectMongoDB();
-  await Project.findByIdAndDelete(id);
-  return NextResponse.json({ message: 'Project deleted' }, { status: 200 });
-}
+// // Delete projects
+// export async function DELETE(
+//   req: Request,
+//   { params }: { params: { id: string } }
+// ) {
+//   const { id } = params;
+//   await connectMongoDB();
+//   await Project.findByIdAndDelete(id);
+//   return NextResponse.json({ message: 'Project deleted' }, { status: 200 });
+// }
